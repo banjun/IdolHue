@@ -35,6 +35,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 .rdfsLabel(is: Var("name"))
                 .imasColor(is: Var("color"))
                 .imasBrand(is: .rdf(.init(string: "ShinyColors", lang: "en")))
+//                .imasBrand(is: .rdf(.init(string: "CinderellaGirls", lang: "en")))
                 .triples
         ), order: [.by(.RAND)], limit: 100))
         .fetch()
@@ -47,14 +48,17 @@ struct Idol: Codable {
     var name: String
     var color: String
 
-    var hue: Float? {
+    private var rgb_min_max: (r: Float, g: Float, b: Float, min: Float, max: Float)? {
         guard color.count == 6,
               let rgb = Int(color, radix: 16) else { return nil }
         let r = Float((rgb & 0xff0000) >> 16) / 255
         let g = Float((rgb & 0x00ff00) >> 8) / 255
         let b = Float((rgb & 0x0000ff) >> 0) / 255
-        let max = Swift.max(r, g, b)
-        let min = Swift.min(r, g, b)
+        return (r, g, b, min(r, g, b), max(r, g, b))
+    }
+
+    var hue: Float? {
+        guard let (r, g, b, min, max) = rgb_min_max else { return nil }
         guard min < max else { return nil }
         let h: Float = {
             switch max {
@@ -65,6 +69,15 @@ struct Idol: Codable {
             }
         }()
         return h + (h < 0 ? 1 : 0)
+    }
+
+    var saturation: Float? {
+        guard let (_, _, _, min, max) = rgb_min_max else { return nil }
+        return (max - min) / max
+    }
+
+    var brightness: Float? {
+        rgb_min_max?.max
     }
 }
 
@@ -88,5 +101,11 @@ final class HostingView: NSHostingView<ContentView> {
     override func scrollWheel(with event: NSEvent) {
         guard case .scrollWheel = event.type else { return }
         rootView.model.scrollOffset += Double(event.deltaY)
+    }
+}
+
+struct AppDelegate_Previews: PreviewProvider {
+    static var previews: some View {
+        /*@START_MENU_TOKEN@*/Text("Hello, World!")/*@END_MENU_TOKEN@*/
     }
 }
