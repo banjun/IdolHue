@@ -34,8 +34,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 subject(Var("idol")).rdfTypeIsImasIdol()
                 .rdfsLabel(is: Var("name"))
                 .imasColor(is: Var("color"))
-//                .imasTitle(is: .rdf(.init(string: "CinderellaGirls", lang: "en")))
-                .imasTitle(is: .rdf(.init(string: "283Pro", lang: "en")))
+                .imasBrand(is: .rdf(.init(string: "ShinyColors", lang: "en")))
                 .triples
         ), order: [.by(.RAND)], limit: 100))
         .fetch()
