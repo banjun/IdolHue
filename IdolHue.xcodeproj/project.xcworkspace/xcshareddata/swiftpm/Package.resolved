@@ -1,43 +1,24 @@
 {
-  "object": {
-    "pins": [
-      {
-        "package": "BrightFutures",
-        "repositoryURL": "https://github.com/Thomvis/BrightFutures",
-        "state": {
-          "branch": null,
-          "revision": "9279defa6bdc21501ce740266e5a14d0119ddc63",
-          "version": "8.0.1"
-        }
-      },
-      {
-        "package": "FootlessParser",
-        "repositoryURL": "https://github.com/kareman/FootlessParser",
-        "state": {
-          "branch": null,
-          "revision": "11c7a366720a2cc62d13ee69c8bdb8372bb3bb2b",
-          "version": "0.5.2"
-        }
-      },
-      {
-        "package": "ReactiveSwift",
-        "repositoryURL": "https://github.com/ReactiveCocoa/ReactiveSwift",
-        "state": {
-          "branch": null,
-          "revision": "2260221e19eb024382a1b20cdd2c8adc4f48f8b8",
-          "version": "6.4.0"
-        }
-      },
-      {
-        "package": "SwiftSparql",
-        "repositoryURL": "https://github.com/banjun/SwiftSparql.git",
-        "state": {
-          "branch": null,
-          "revision": "640098cd6b3fcc40048dbcf948f3ad01229eb020",
-          "version": "0.11.0"
-        }
+  "originHash" : "5563b965cb91d4ff70d7bdda9db4ab88cf197c8c9c72dce427984ff8520e7ec9",
+  "pins" : [
+    {
+      "identity" : "footlessparser",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/kareman/FootlessParser",
+      "state" : {
+        "revision" : "11c7a366720a2cc62d13ee69c8bdb8372bb3bb2b",
+        "version" : "0.5.2"
       }
-    ]
-  },
-  "version": 1
+    },
+    {
+      "identity" : "swiftsparql",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/banjun/SwiftSparql.git",
+      "state" : {
+        "revision" : "58c91d82126f26ffc437b8f33063a1753b83b2ec",
+        "version" : "0.14.0"
+      }
+    }
+  ],
+  "version" : 3
 }
