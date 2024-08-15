@@ -29,18 +29,22 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         window.title = "Dye the sky in my hue"
         window.makeKeyAndOrderFront(nil)
 
-        Request(endpoint: URL(string: "https://sparql.crssnky.xyz/spql/imas/query")!, select: SelectQuery(where: WhereClause(
-            patterns:
-                subject(Var("idol")).rdfTypeIsImasIdol()
-                .rdfsLabel(is: Var("name"))
-                .imasColor(is: Var("color"))
-                .imasBrand(is: .rdf(.init(string: "ShinyColors", lang: "en")))
-//                .imasBrand(is: .rdf(.init(string: "CinderellaGirls", lang: "en")))
-                .triples
-        ), order: [.by(.RAND)], limit: 100))
-        .fetch()
-        .onSuccess {(idols: [Idol]) in self.idolsModel.idols = idols}
-        .onFailure {NSLog("%@", "query error: \(String(describing: $0))")}
+        Task.detached { @MainActor in
+            do {
+                self.idolsModel.idols = try await Request(endpoint: URL(string: "https://sparql.crssnky.xyz/spql/imas/query")!, select: SelectQuery(where: WhereClause(
+                    patterns:
+                        subject(Var("idol")).rdfTypeIsImasIdol()
+                        .rdfsLabel(is: Var("name"))
+                        .imasColor(is: Var("color"))
+                        .imasBrand(is: .rdf(.init(string: "ShinyColors", lang: "en")))
+                    //                .imasBrand(is: .rdf(.init(string: "CinderellaGirls", lang: "en")))
+                        .triples
+                ), order: [.by(.RAND)], limit: 100))
+                .fetch()
+            } catch {
+                NSLog("%@", "query error: \(String(describing: error))")
+            }
+        }
     }
 }
 
