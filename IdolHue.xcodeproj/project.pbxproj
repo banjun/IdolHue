@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -12,6 +12,9 @@
 		EA0CFE572526120700578A2B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EA0CFE562526120700578A2B /* Assets.xcassets */; };
 		EA0CFE5A2526120700578A2B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EA0CFE592526120700578A2B /* Preview Assets.xcassets */; };
 		EA0CFE5D2526120700578A2B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA0CFE5B2526120700578A2B /* Main.storyboard */; };
+		EA4560802C6E2136000C9870 /* Idol.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA45607F2C6E2136000C9870 /* Idol.swift */; };
+		EA4560812C6E220C000C9870 /* Idol.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA45607F2C6E2136000C9870 /* Idol.swift */; };
+		EA4560842C6E223D000C9870 /* SwiftSparql in Frameworks */ = {isa = PBXBuildFile; productRef = EA4560832C6E223D000C9870 /* SwiftSparql */; };
 		EABCCD192526289C009E23C9 /* SwiftSparql in Frameworks */ = {isa = PBXBuildFile; productRef = EABCCD182526289C009E23C9 /* SwiftSparql */; };
 /* End PBXBuildFile section */
 
@@ -24,7 +27,23 @@
 		EA0CFE5C2526120700578A2B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		EA0CFE5E2526120700578A2B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EA0CFE5F2526120700578A2B /* IdolHue.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = IdolHue.entitlements; sourceTree = "<group>"; };
+		EA45607F2C6E2136000C9870 /* Idol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Idol.swift; sourceTree = "<group>"; };
+		EA4E228C2C6E207400923B94 /* IdolHueVision.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IdolHueVision.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		EA4E229E2C6E207500923B94 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = EA4E228B2C6E207400923B94 /* IdolHueVision */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		EA4E228D2C6E207400923B94 /* IdolHueVision */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (EA4E229E2C6E207500923B94 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = IdolHueVision; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		EA0CFE4C2526120600578A2B /* Frameworks */ = {
@@ -35,13 +54,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		EA4E22892C6E207400923B94 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EA4560842C6E223D000C9870 /* SwiftSparql in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		EA0CFE462526120600578A2B = {
 			isa = PBXGroup;
 			children = (
+				EA45607F2C6E2136000C9870 /* Idol.swift */,
 				EA0CFE512526120600578A2B /* IdolHue */,
+				EA4E228D2C6E207400923B94 /* IdolHueVision */,
+				EA4560822C6E223D000C9870 /* Frameworks */,
 				EA0CFE502526120600578A2B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -50,6 +80,7 @@
 			isa = PBXGroup;
 			children = (
 				EA0CFE4F2526120600578A2B /* IdolHue.app */,
+				EA4E228C2C6E207400923B94 /* IdolHueVision.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -76,6 +107,13 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		EA4560822C6E223D000C9870 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -99,6 +137,29 @@
 			productReference = EA0CFE4F2526120600578A2B /* IdolHue.app */;
 			productType = "com.apple.product-type.application";
 		};
+		EA4E228B2C6E207400923B94 /* IdolHueVision */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EA4E229F2C6E207500923B94 /* Build configuration list for PBXNativeTarget "IdolHueVision" */;
+			buildPhases = (
+				EA4E22882C6E207400923B94 /* Sources */,
+				EA4E22892C6E207400923B94 /* Frameworks */,
+				EA4E228A2C6E207400923B94 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				EA4E228D2C6E207400923B94 /* IdolHueVision */,
+			);
+			name = IdolHueVision;
+			packageProductDependencies = (
+				EA4560832C6E223D000C9870 /* SwiftSparql */,
+			);
+			productName = IdolHueVision;
+			productReference = EA4E228C2C6E207400923B94 /* IdolHueVision.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -106,11 +167,14 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastSwiftUpdateCheck = 1200;
+				LastSwiftUpdateCheck = 1600;
 				LastUpgradeCheck = 1600;
 				TargetAttributes = {
 					EA0CFE4E2526120600578A2B = {
 						CreatedOnToolsVersion = 12.0;
+					};
+					EA4E228B2C6E207400923B94 = {
+						CreatedOnToolsVersion = 16.0;
 					};
 				};
 			};
@@ -131,6 +195,7 @@
 			projectRoot = "";
 			targets = (
 				EA0CFE4E2526120600578A2B /* IdolHue */,
+				EA4E228B2C6E207400923B94 /* IdolHueVision */,
 			);
 		};
 /* End PBXProject section */
@@ -146,6 +211,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		EA4E228A2C6E207400923B94 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -154,7 +226,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				EA0CFE552526120600578A2B /* ContentView.swift in Sources */,
+				EA4560802C6E2136000C9870 /* Idol.swift in Sources */,
 				EA0CFE532526120600578A2B /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EA4E22882C6E207400923B94 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EA4560812C6E220C000C9870 /* Idol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -337,6 +418,72 @@
 			};
 			name = Release;
 		};
+		EA4E229C2C6E207500923B94 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"IdolHueVision/Preview Content\"";
+				DEVELOPMENT_TEAM = FPZK4WRGW7;
+				ENABLE_PREVIEWS = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = jp.banjun.exp.visionos.IdolHueVision;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = xros;
+				SUPPORTED_PLATFORMS = "xros xrsimulator";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 7;
+				XROS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Debug;
+		};
+		EA4E229D2C6E207500923B94 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"IdolHueVision/Preview Content\"";
+				DEVELOPMENT_TEAM = FPZK4WRGW7;
+				ENABLE_PREVIEWS = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = jp.banjun.exp.visionos.IdolHueVision;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = xros;
+				SUPPORTED_PLATFORMS = "xros xrsimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 7;
+				VALIDATE_PRODUCT = YES;
+				XROS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -358,6 +505,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		EA4E229F2C6E207500923B94 /* Build configuration list for PBXNativeTarget "IdolHueVision" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EA4E229C2C6E207500923B94 /* Debug */,
+				EA4E229D2C6E207500923B94 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
@@ -372,6 +528,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		EA4560832C6E223D000C9870 /* SwiftSparql */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EABCCD172526289C009E23C9 /* XCRemoteSwiftPackageReference "SwiftSparql" */;
+			productName = SwiftSparql;
+		};
 		EABCCD182526289C009E23C9 /* SwiftSparql */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = EABCCD172526289C009E23C9 /* XCRemoteSwiftPackageReference "SwiftSparql" */;
