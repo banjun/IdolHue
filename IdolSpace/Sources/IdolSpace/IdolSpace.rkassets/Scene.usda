@@ -1,0 +1,161 @@
+#usda 1.0
+(
+    customLayerData = {
+        string creator = "Reality Composer Pro Version 2.0 (448.0.12.508.1)"
+    }
+    defaultPrim = "Root"
+    metersPerUnit = 1
+    upAxis = "Y"
+)
+
+def Xform "Root"
+{
+    reorder nameChildren = ["OvalTop", "OvalBottom", "Material"]
+    def "OvalTop" (
+        active = true
+        prepend apiSchemas = ["MaterialBindingAPI"]
+        customData = {
+            dictionary RE = {
+                dictionary mesh = {
+                    dictionary v1 = {
+                        bool reorderVertexCaching = 1
+                    }
+                }
+            }
+        }
+        references = @Oval.usda@</GeneratedOvalPlane>
+    )
+    {
+        rel material:binding = </Root/Material> (
+            bindMaterialAs = "weakerThanDescendants"
+        )
+        uniform token subdivisionScheme = "catmullClark"
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (0, 1, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+
+    def "OvalBottom" (
+        active = true
+        prepend apiSchemas = ["MaterialBindingAPI"]
+        references = @Oval.usda@</GeneratedOvalPlane>
+    )
+    {
+        rel material:binding = </Root/Material> (
+            bindMaterialAs = "weakerThanDescendants"
+        )
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+
+    def Material "Material"
+    {
+        token cullMode = "unspecified" (
+            allowedTokens = ["unspecified", "none", "front", "back"]
+        )
+        token outputs:mtlx:surface.connect = </Root/Material/PreviewSurface.outputs:out>
+        token outputs:realitykit:vertex
+        float2 ui:nodegraph:realitykit:subgraphOutputs:pos = (335.25, 100.5)
+
+        def Shader "PreviewSurface"
+        {
+            uniform token info:id = "ND_UsdPreviewSurface_surfaceshader"
+            color3f inputs:diffuseColor.connect = </Root/Material/HSVToRGB.outputs:out>
+            float inputs:metallic
+            float inputs:opacity
+            float inputs:roughness = 1
+            token outputs:out
+            float2 ui:nodegraph:node:pos = (93.5, 100.5)
+            int ui:nodegraph:node:stackingOrder = 123
+            string[] ui:nodegraph:realitykit:node:attributesShowingChildren = ["inputs:diffuseColor", "Advanced"]
+        }
+
+        def Shader "HSVToRGB"
+        {
+            uniform token info:id = "ND_hsvtorgb_color3"
+            color3f inputs:in.connect = </Root/Material/Combine3.outputs:out>
+            color3f outputs:out
+            float2 ui:nodegraph:node:pos = (-132.34375, 135.875)
+            int ui:nodegraph:node:stackingOrder = 121
+        }
+
+        def Shader "Position"
+        {
+            uniform token info:id = "ND_position_vector3"
+            float3 outputs:out
+            float2 ui:nodegraph:node:pos = (-554.8863, -12.75885)
+            int ui:nodegraph:node:stackingOrder = 117
+        }
+
+        def Shader "Separate3"
+        {
+            uniform token info:id = "ND_separate3_vector3"
+            float3 inputs:in.connect = </Root/Material/Position.outputs:out>
+            float outputs:outx
+            float outputs:outy
+            float outputs:outz
+            float2 ui:nodegraph:node:pos = (-380.29254, -3.899475)
+            int ui:nodegraph:node:stackingOrder = 117
+        }
+
+        def Shader "Atan2"
+        {
+            uniform token info:id = "ND_atan2_float"
+            float inputs:inx.connect = </Root/Material/Separate3.outputs:outx>
+            float inputs:iny.connect = </Root/Material/Separate3.outputs:outz>
+            float outputs:out
+            float2 ui:nodegraph:node:pos = (-217.33673, 6.343384)
+            int ui:nodegraph:node:stackingOrder = 117
+        }
+
+        def Shader "Combine3"
+        {
+            uniform token info:id = "ND_combine3_color3"
+            float inputs:in1.connect = </Root/Material/Divide.outputs:out>
+            float inputs:in2 = 1
+            float inputs:in3 = 1
+            color3f outputs:out
+            float2 ui:nodegraph:node:pos = (-325.12598, 141.4375)
+            int ui:nodegraph:node:stackingOrder = 119
+        }
+
+        def Shader "Divide"
+        {
+            uniform token info:id = "ND_divide_float"
+            float inputs:in1.connect = </Root/Material/Atan2.outputs:out>
+            float inputs:in2 = 6.28318
+            float outputs:out
+            float2 ui:nodegraph:node:pos = (-106.21912, 6.648926)
+            int ui:nodegraph:node:stackingOrder = 117
+        }
+    }
+
+    def Cylinder "Cylinder" (
+        active = true
+        prepend apiSchemas = ["MaterialBindingAPI"]
+    )
+    {
+        uniform token axis = "Y"
+        double height = 1
+        rel material:binding = </Root/Cylinder/DefaultMaterial>
+        double radius = 0.5
+        float3 xformOp:translate = (0, 0.5, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Material "DefaultMaterial"
+        {
+            token outputs:mtlx:surface
+            token outputs:realitykit:vertex
+            prepend token outputs:surface.connect = </Root/Cylinder/DefaultMaterial/DefaultSurfaceShader.outputs:surface>
+
+            def Shader "DefaultSurfaceShader"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (1, 1, 1)
+                float inputs:opacity = 0.1
+                float inputs:roughness = 0.5
+                token outputs:surface
+            }
+        }
+    }
+}
+

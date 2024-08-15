@@ -15,6 +15,8 @@
 		EA4560802C6E2136000C9870 /* Idol.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA45607F2C6E2136000C9870 /* Idol.swift */; };
 		EA4560812C6E220C000C9870 /* Idol.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA45607F2C6E2136000C9870 /* Idol.swift */; };
 		EA4560842C6E223D000C9870 /* SwiftSparql in Frameworks */ = {isa = PBXBuildFile; productRef = EA4560832C6E223D000C9870 /* SwiftSparql */; };
+		EA45608A2C6E2C54000C9870 /* IdolSpace in Resources */ = {isa = PBXBuildFile; fileRef = EA4560892C6E2C54000C9870 /* IdolSpace */; };
+		EA45608C2C6E2C76000C9870 /* IdolSpace in Frameworks */ = {isa = PBXBuildFile; productRef = EA45608B2C6E2C76000C9870 /* IdolSpace */; };
 		EABCCD192526289C009E23C9 /* SwiftSparql in Frameworks */ = {isa = PBXBuildFile; productRef = EABCCD182526289C009E23C9 /* SwiftSparql */; };
 /* End PBXBuildFile section */
 
@@ -28,6 +30,7 @@
 		EA0CFE5E2526120700578A2B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EA0CFE5F2526120700578A2B /* IdolHue.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = IdolHue.entitlements; sourceTree = "<group>"; };
 		EA45607F2C6E2136000C9870 /* Idol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Idol.swift; sourceTree = "<group>"; };
+		EA4560892C6E2C54000C9870 /* IdolSpace */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = IdolSpace; sourceTree = "<group>"; };
 		EA4E228C2C6E207400923B94 /* IdolHueVision.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IdolHueVision.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -59,6 +62,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EA4560842C6E223D000C9870 /* SwiftSparql in Frameworks */,
+				EA45608C2C6E2C76000C9870 /* IdolSpace in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,6 +76,7 @@
 				EA0CFE512526120600578A2B /* IdolHue */,
 				EA4E228D2C6E207400923B94 /* IdolHueVision */,
 				EA4560822C6E223D000C9870 /* Frameworks */,
+				EA4560892C6E2C54000C9870 /* IdolSpace */,
 				EA0CFE502526120600578A2B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -155,6 +160,7 @@
 			name = IdolHueVision;
 			packageProductDependencies = (
 				EA4560832C6E223D000C9870 /* SwiftSparql */,
+				EA45608B2C6E2C76000C9870 /* IdolSpace */,
 			);
 			productName = IdolHueVision;
 			productReference = EA4E228C2C6E207400923B94 /* IdolHueVision.app */;
@@ -215,6 +221,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA45608A2C6E2C54000C9870 /* IdolSpace in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -532,6 +539,10 @@
 			isa = XCSwiftPackageProductDependency;
 			package = EABCCD172526289C009E23C9 /* XCRemoteSwiftPackageReference "SwiftSparql" */;
 			productName = SwiftSparql;
+		};
+		EA45608B2C6E2C76000C9870 /* IdolSpace */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = IdolSpace;
 		};
 		EABCCD182526289C009E23C9 /* SwiftSparql */ = {
 			isa = XCSwiftPackageProductDependency;

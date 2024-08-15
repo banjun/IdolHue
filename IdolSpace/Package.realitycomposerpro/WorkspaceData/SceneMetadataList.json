@@ -1,0 +1,42 @@
+{
+  "E2AF7C60-D8B6-4A54-B011-518FE7CF0322" : {
+    "objectMetadataList" : [
+      [
+        "E2AF7C60-D8B6-4A54-B011-518FE7CF0322",
+        "Root"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "E2AF7C60-D8B6-4A54-B011-518FE7CF0322",
+        "Root",
+        "Oval",
+        "Material"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "E2AF7C60-D8B6-4A54-B011-518FE7CF0322",
+        "Root",
+        "Cylinder"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "E2AF7C60-D8B6-4A54-B011-518FE7CF0322",
+        "Root",
+        "OvalTop"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      }
+    ]
+  }
+}

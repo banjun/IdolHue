@@ -7,5 +7,6 @@ struct IdolHueVisionApp: App {
             ContentView()
         }
         .windowStyle(.volumetric)
+        .volumeWorldAlignment(.gravityAligned)
     }
 }
