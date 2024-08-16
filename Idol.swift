@@ -16,7 +16,7 @@ extension Idol {
     }
 }
 
-struct Idol: Codable {
+struct Idol: Codable, Hashable {
     var name: String
     var color: String
 

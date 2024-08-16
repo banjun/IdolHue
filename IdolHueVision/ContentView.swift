@@ -29,21 +29,58 @@ struct ContentView: View {
 }
 struct IdolHueView: View {
     var idols: [Idol] = []
-    var radius: Float = 0.5
     @Environment(\.physicalMetrics) private var physicalMetrics
-    @State private var scene: Entity!
+    @State private var scene: Entity = try! Entity.load(named: "Scene", in: idolSpaceBundle)
+    @State private var idolEntitiesRoot = Entity()
 
     var body: some View {
         GeometryReader3D { geometry in
             RealityView { content in
-                scene = try! await Entity(named: "Scene", in: idolSpaceBundle)
-                scene.position.y = -0.5
                 content.add(scene)
-            } update: { content in
-                guard let scene else { return }
-                let scale = Float(physicalMetrics.convert(Double(geometry.size.height), to: .meters))
-                scene.transform.scale = .init(repeating: scale)
-                scene.position.y = -scale / 2
+                scene.addChild(idolEntitiesRoot)
+                layout(geometry: geometry)
+            } update: { _ in
+                layout(geometry: geometry)
+            }
+            .gesture(TapGesture().targetedToAnyEntity().onEnded { value in
+                print(value.entity.name)
+            })
+        }
+    }
+
+    private func layout(geometry: GeometryProxy3D) {
+        let scale = Float(physicalMetrics.convert(Double(geometry.size.width), to: .meters))
+        scene.transform.scale = .init(repeating: scale)
+        scene.position.y = -scale / 2
+
+        if idolEntitiesRoot.children.count != idols.count {
+            idolEntitiesRoot.children.forEach { $0.removeFromParent() }
+            idols.forEach { idol in
+                let sphereSize: Float = 0.03
+                let hue = idol.hue
+                let saturation = idol.saturation
+                let brightness = idol.brightness
+                let y = (idol.brightness ?? 0) * (1 - 2 * sphereSize) + sphereSize
+                var m = PhysicallyBasedMaterial()
+                m.baseColor = .init(tint: .init(hue: .init(hue ?? 0), saturation: .init(saturation ?? 0), brightness: .init(brightness ?? 0), alpha: hue.map {_ in 1} ?? 0))
+                m.emissiveColor = .init(color: m.baseColor.tint)
+                m.emissiveIntensity = 0.8
+                m.roughness = 0.2
+                m.metallic = 0.01
+                m.blending = .transparent(opacity: 0.9)
+                let e = ModelEntity(mesh: .generateSphere(radius: sphereSize), materials: [m])
+                e.name = idol.name
+                e.components.set(HoverEffectComponent())
+                e.components.set(InputTargetComponent())
+                e.components.set(CollisionComponent(shapes: [.generateSphere(radius: sphereSize)]))
+                if let hue {
+                    let θ = hue * .pi * 2
+                    let r = ((saturation ?? 0) / 2) * (1 - 2 * sphereSize)
+                    e.position = .init(r * cos(θ), y, r * sin(θ))
+                } else {
+                    e.position = .init(0, y, 0)
+                }
+                idolEntitiesRoot.addChild(e)
             }
         }
     }
