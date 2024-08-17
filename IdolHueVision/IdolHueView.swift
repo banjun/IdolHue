@@ -62,6 +62,12 @@ struct IdolHueView: View {
                 } else {
                     e.position = .init(0, y, 0)
                 }
+
+                // Lab
+                if let (l, a, b) = idol.lab {
+                    e.position = .init(Float(a) / 128 / 2 * (1 - sphereSize), Float(l) / 100 * (1 - sphereSize), Float(b) / 128 / 2 * (1 - sphereSize))
+                }
+
                 idolEntitiesRoot.addChild(e)
             }
             // NSLog("%@", "\(Self.self)(\(id)) updated idol entities \(idolEntitiesRoot.children.count) == \(idols.count)")

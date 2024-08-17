@@ -55,3 +55,15 @@ struct Idol: Codable, Hashable {
         rgb_min_max?.max
     }
 }
+
+import CoreGraphics
+extension Idol {
+    var lab: (l: CGFloat, a: CGFloat, b: CGFloat)? {
+        guard let (r, g, b, _, _) = rgb_min_max else { return nil }
+        guard let lab = CGColor(srgbRed: .init(r), green: .init(g), blue: .init(b), alpha: 1)
+            .converted(to: .init(name: CGColorSpace.genericLab)!,
+                       intent: CGColorRenderingIntent.perceptual,
+                       options: nil)?.components else { return nil }
+        return (lab[0], lab[1], lab[2])
+    }
+}
