@@ -31,7 +31,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         Task.detached { @MainActor in
             do {
-                self.idolsModel.idols = try await Idol.fetch()
+                self.idolsModel.idols = try await Idol.fetch(brand: .ShinyColors)
             } catch {
                 NSLog("%@", "fetch error = \(String(describing: error))")
             }

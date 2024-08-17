@@ -17,6 +17,10 @@
 		EA4560842C6E223D000C9870 /* SwiftSparql in Frameworks */ = {isa = PBXBuildFile; productRef = EA4560832C6E223D000C9870 /* SwiftSparql */; };
 		EA45608A2C6E2C54000C9870 /* IdolSpace in Resources */ = {isa = PBXBuildFile; fileRef = EA4560892C6E2C54000C9870 /* IdolSpace */; };
 		EA45608C2C6E2C76000C9870 /* IdolSpace in Frameworks */ = {isa = PBXBuildFile; productRef = EA45608B2C6E2C76000C9870 /* IdolSpace */; };
+		EAAE1C462C70F275003D9347 /* Brand.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAAE1C452C70F275003D9347 /* Brand.swift */; };
+		EAAE1C472C70F275003D9347 /* Brand.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAAE1C452C70F275003D9347 /* Brand.swift */; };
+		EAAE1C492C70F2B2003D9347 /* Imasparql.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAAE1C482C70F2B2003D9347 /* Imasparql.swift */; };
+		EAAE1C4A2C70F2B2003D9347 /* Imasparql.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAAE1C482C70F2B2003D9347 /* Imasparql.swift */; };
 		EABCCD192526289C009E23C9 /* SwiftSparql in Frameworks */ = {isa = PBXBuildFile; productRef = EABCCD182526289C009E23C9 /* SwiftSparql */; };
 /* End PBXBuildFile section */
 
@@ -32,6 +36,8 @@
 		EA45607F2C6E2136000C9870 /* Idol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Idol.swift; sourceTree = "<group>"; };
 		EA4560892C6E2C54000C9870 /* IdolSpace */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = IdolSpace; sourceTree = "<group>"; };
 		EA4E228C2C6E207400923B94 /* IdolHueVision.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IdolHueVision.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EAAE1C452C70F275003D9347 /* Brand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Brand.swift; sourceTree = "<group>"; };
+		EAAE1C482C70F2B2003D9347 /* Imasparql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Imasparql.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -72,7 +78,9 @@
 		EA0CFE462526120600578A2B = {
 			isa = PBXGroup;
 			children = (
+				EAAE1C482C70F2B2003D9347 /* Imasparql.swift */,
 				EA45607F2C6E2136000C9870 /* Idol.swift */,
+				EAAE1C452C70F275003D9347 /* Brand.swift */,
 				EA0CFE512526120600578A2B /* IdolHue */,
 				EA4E228D2C6E207400923B94 /* IdolHueVision */,
 				EA4560822C6E223D000C9870 /* Frameworks */,
@@ -233,6 +241,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				EA0CFE552526120600578A2B /* ContentView.swift in Sources */,
+				EAAE1C4A2C70F2B2003D9347 /* Imasparql.swift in Sources */,
+				EAAE1C472C70F275003D9347 /* Brand.swift in Sources */,
 				EA4560802C6E2136000C9870 /* Idol.swift in Sources */,
 				EA0CFE532526120600578A2B /* AppDelegate.swift in Sources */,
 			);
@@ -242,6 +252,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EAAE1C492C70F2B2003D9347 /* Imasparql.swift in Sources */,
+				EAAE1C462C70F275003D9347 /* Brand.swift in Sources */,
 				EA4560812C6E220C000C9870 /* Idol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

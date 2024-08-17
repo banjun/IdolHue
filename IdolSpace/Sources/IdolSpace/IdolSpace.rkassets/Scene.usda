@@ -10,7 +10,7 @@
 
 def Xform "Root"
 {
-    reorder nameChildren = ["OvalTop", "OvalBottom", "Cylinder", "nodegraph"]
+    reorder nameChildren = ["OvalTop", "OvalBottom", "Cylinder", "Model_Sorting_Group"]
     def "OvalTop" (
         active = true
         prepend apiSchemas = ["MaterialBindingAPI"]
@@ -58,9 +58,11 @@ def Xform "Root"
             def Shader "PreviewSurface"
             {
                 uniform token info:id = "ND_UsdPreviewSurface_surfaceshader"
+                float inputs:clearcoat
                 color3f inputs:diffuseColor.connect = </Root/OvalTop/Material/nodegraph.outputs:HSVToRGB_out>
                 float inputs:metallic
-                float inputs:opacity
+                float3 inputs:normal
+                float inputs:opacity.connect = </Root/OvalTop/Material/Magnitude.outputs:out>
                 float inputs:roughness = 1
                 token outputs:out
                 float2 ui:nodegraph:node:pos = (93.5, 100.5)
@@ -196,6 +198,33 @@ def Xform "Root"
                     int ui:nodegraph:node:stackingOrder = 559
                 }
             }
+
+            def Shader "Multiply"
+            {
+                uniform token info:id = "ND_multiply_vector3"
+                float3 inputs:in1.connect = </Root/OvalTop/Material/Position.outputs:out>
+                float3 inputs:in2 = (2, 2, 2)
+                float3 outputs:out
+                float2 ui:nodegraph:node:pos = (-332.89606, 256.98798)
+                int ui:nodegraph:node:stackingOrder = 234
+            }
+
+            def Shader "Magnitude"
+            {
+                uniform token info:id = "ND_magnitude_vector3"
+                float3 inputs:in.connect = </Root/OvalTop/Material/Multiply.outputs:out>
+                float outputs:out
+                float2 ui:nodegraph:node:pos = (-152.52167, 236.54308)
+                int ui:nodegraph:node:stackingOrder = 234
+            }
+
+            def Shader "Position"
+            {
+                uniform token info:id = "ND_position_vector3"
+                float3 outputs:out
+                float2 ui:nodegraph:node:pos = (-481.52264, 251.10631)
+                int ui:nodegraph:node:stackingOrder = 234
+            }
         }
     }
 
@@ -233,7 +262,8 @@ def Xform "Root"
                 uniform token info:id = "ND_UsdPreviewSurface_surfaceshader"
                 color3f inputs:diffuseColor.connect = </Root/OvalBottom/Material/nodegraph.outputs:HSVToRGB_out>
                 float inputs:metallic
-                float inputs:opacity
+                float3 inputs:normal
+                float inputs:opacity.connect = </Root/OvalBottom/Material/Magnitude.outputs:out>
                 float inputs:roughness = 1
                 token outputs:out
                 float2 ui:nodegraph:node:pos = (93.5, 100.5)
@@ -259,8 +289,10 @@ def Xform "Root"
                 )
                 color3f outputs:HSVToRGB_out.connect = </Root/OvalBottom/Material/nodegraph/HSVToRGB.outputs:out>
                 float2 ui:nodegraph:node:pos = (-469.4732, 98.97749)
-                int ui:nodegraph:node:stackingOrder = 138
+                int ui:nodegraph:node:stackingOrder = 232
+                string[] ui:nodegraph:realitykit:node:attributesShowingChildren = ["inputs:light_value1"]
                 float2 ui:nodegraph:realitykit:subgraphOutputs:pos = (1338, 225)
+                int ui:nodegraph:realitykit:subgraphOutputs:stackingOrder = 568
 
                 def Shader "Combine3"
                 {
@@ -339,7 +371,7 @@ def Xform "Root"
                     color3f inputs:in.connect = </Root/OvalBottom/Material/nodegraph/Combine3.outputs:out>
                     color3f outputs:out
                     float2 ui:nodegraph:node:pos = (1091.75, 225)
-                    int ui:nodegraph:node:stackingOrder = 559
+                    int ui:nodegraph:node:stackingOrder = 566
                 }
 
                 def Shader "Divide"
@@ -369,13 +401,42 @@ def Xform "Root"
                     int ui:nodegraph:node:stackingOrder = 559
                 }
             }
+
+            def Shader "Position"
+            {
+                uniform token info:id = "ND_position_vector3"
+                float3 outputs:out
+                float2 ui:nodegraph:node:pos = (-567.239, 240.16113)
+                int ui:nodegraph:node:stackingOrder = 231
+            }
+
+            def Shader "Magnitude"
+            {
+                uniform token info:id = "ND_magnitude_vector3"
+                float3 inputs:in.connect = </Root/OvalBottom/Material/Multiply.outputs:out>
+                float outputs:out
+                float2 ui:nodegraph:node:pos = (-238.238, 225.59793)
+                int ui:nodegraph:node:stackingOrder = 231
+            }
+
+            def Shader "Multiply"
+            {
+                uniform token info:id = "ND_multiply_vector3"
+                float3 inputs:in1.connect = </Root/OvalBottom/Material/Position.outputs:out>
+                float3 inputs:in2 = (2, 2, 2)
+                float3 outputs:out
+                float2 ui:nodegraph:node:pos = (-418.61246, 246.04282)
+                int ui:nodegraph:node:stackingOrder = 231
+            }
         }
     }
 
     def Cylinder "Cylinder" (
+        active = false
         prepend apiSchemas = ["MaterialBindingAPI"]
     )
     {
+        reorder nameChildren = ["DefaultMaterial", "MeshSorting", "Model_Sorting_Group"]
         uniform token axis = "Y"
         double height = 0.9998
         rel material:binding = </Root/Cylinder/DefaultMaterial>
