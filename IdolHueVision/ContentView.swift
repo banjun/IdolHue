@@ -3,18 +3,16 @@ import Observation
 
 struct ContentView: View {
     private let model: Model = .init()
-    @Observable final class Model {
+    @MainActor @Observable final class Model {
         var idols: [Idol] = []
         var brand: Brand? = .Gakuen
 
-        func fetch() {
-            Task.detached { @MainActor in
-                do {
-                    self.idols = try await Idol.fetch(brand: self.brand)
-                } catch {
-                    self.idols = []
-                    NSLog("%@", "fetch error = \(String(describing: error))")
-                }
+        func fetch() async {
+            do {
+                idols = []
+                idols = try await Idol.fetch(brand: brand)
+            } catch {
+                NSLog("%@", "fetch error = \(String(describing: error))")
             }
         }
     }
@@ -22,8 +20,8 @@ struct ContentView: View {
     var body: some View {
         @Bindable var model = model
         IdolHueView(idols: model.idols)
-            .onAppear { model.fetch() }
-            .onChange(of: model.brand) { _, _ in model.fetch() }
+            .task { await model.fetch() }
+            .onChange(of: model.brand) { _, _ in Task { await model.fetch() } }
             .ornament(attachmentAnchor: .scene(.bottomFront), contentAlignment: .top) {
                 VStack {
                     Picker("Brand", selection: $model.brand) {
@@ -32,7 +30,7 @@ struct ContentView: View {
                         }
                     }
                     .pickerStyle(.palette)
-                    Text("\(model.idols.count) idols")
+                    Text("\(model.idols.isEmpty ? "--" : String(model.idols.count)) idols")
                 }
                 .padding()
                 .glassBackgroundEffect()

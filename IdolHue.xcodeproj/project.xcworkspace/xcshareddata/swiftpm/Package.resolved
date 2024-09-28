@@ -1,5 +1,5 @@
 {
-  "originHash" : "5563b965cb91d4ff70d7bdda9db4ab88cf197c8c9c72dce427984ff8520e7ec9",
+  "originHash" : "9d8c5621af96f64be10081818286e0ac2ec6a6624f1f244899341c770ebd88b6",
   "pins" : [
     {
       "identity" : "footlessparser",
@@ -15,8 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/banjun/SwiftSparql.git",
       "state" : {
-        "revision" : "58c91d82126f26ffc437b8f33063a1753b83b2ec",
-        "version" : "0.14.0"
+        "revision" : "e8df844c6ce15dba392bc3c2bdfa32e1941ffdb6",
+        "version" : "0.15.0"
       }
     }
   ],
