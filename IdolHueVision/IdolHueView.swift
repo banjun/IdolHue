@@ -63,10 +63,28 @@ struct IdolHueView: View {
                     e.position = .init(0, y, 0)
                 }
 
-                // Lab
-                if let (l, a, b) = idol.lab {
-                    e.position = .init(Float(a) / 128 / 2 * (1 - sphereSize), Float(l) / 100 * (1 - sphereSize), Float(b) / 128 / 2 * (1 - sphereSize))
+
+
+                //                // Lab
+                //                if let (l, a, b) = idol.lab {
+                //                    e.position = .init(Float(a) / 128 / 2 * (1 - sphereSize), Float(l) / 100, Float(b) / 128 / 2 * (1 - sphereSize))
+                //                }
+
+                // original
+                if let hue, let saturation, let (l, _, _) = idol.lab, let (r, g, b, _, _) = idol.rgb_min_max {
+                    let l: Float = Float(l / 50) - 1 // [-1,+1]
+//                    let l: Float = (r + g + b) / 3 * 2 - 1
+                    let θ: Float = (l + 1) * .pi / 4
+                    let hr: Float = sin(θ)
+                    let c: Float = l - hr + 1
+                    let φ: Float = (1 - saturation) * .pi / 2
+                    let sr: Float = hr * cos(φ)
+                    let hθ: Float = hue * .pi * 2
+                    e.position = .init(sr * cos(hθ) / 2,
+                                       (c + hr * sin(φ)) / 2 * (1 - 2 * sphereSize),
+                                       sr * sin(hθ) / 2)
                 }
+
 
                 idolEntitiesRoot.addChild(e)
             }
@@ -79,6 +97,9 @@ struct IdolHueView: View {
     IdolHueView(idols: [
         Idol(name: "橘ありす", color: "5881C1"),
         Idol(name: "橘ありすR", color: "FF0000"),
+        Idol(name: "橘ありすR4", color: "FF4444"),
+        Idol(name: "橘ありすR8", color: "FF8888"),
+        Idol(name: "橘ありすRC", color: "FFCCCC"),
         Idol(name: "橘ありすG", color: "00FF00"),
         Idol(name: "橘ありすB", color: "0000FF"),
         Idol(name: "橘ありすW", color: "FFFFFF"),

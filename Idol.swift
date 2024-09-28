@@ -23,7 +23,7 @@ struct Idol: Codable, Hashable {
     var name: String
     var color: String?
 
-    private var rgb_min_max: (r: Float, g: Float, b: Float, min: Float, max: Float)? {
+    var rgb_min_max: (r: Float, g: Float, b: Float, min: Float, max: Float)? {
         guard let color, color.count == 6,
               let rgb = Int(color, radix: 16) else { return nil }
         let r = Float((rgb & 0xff0000) >> 16) / 255
