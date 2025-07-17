@@ -18,43 +18,52 @@ struct IdolHueView: View {
                 scene.addChild(idolEntitiesRoot)
                 idolEntitiesRoot.components.set(ModelSortGroupComponent(group: modelSortGroup, order: 9))
                 scene.findEntity(named: "Cylinder")?.components.set(ModelSortGroupComponent(group: modelSortGroup, order: 199))
-                layout(geometry: geometry)
+                await layout(geometry: geometry)
             } update: { _ in
-                layout(geometry: geometry)
+                Task {await layout(geometry: geometry)}
             }
             .gesture(TapGesture().targetedToAnyEntity().onEnded { value in
                 print(value.entity.name)
             })
-            .onChange(of: idols) { _, _ in layout(geometry: geometry) }
+            .onChange(of: idols) { _, _ in Task {await layout(geometry: geometry)}}
         }
     }
 
-    private func layout(geometry: GeometryProxy3D) {
+    private func layout(geometry: GeometryProxy3D) async {
         let scale = Float(physicalMetrics.convert(Double(geometry.size.width), to: .meters))
         scene.transform.scale = .init(repeating: scale)
         scene.position.y = -scale / 2
 
         if idolEntitiesRoot.children.count != idols.count {
             idolEntitiesRoot.children.removeAll()
+            let sphereSize: Float = 0.03
+            let sphere = ModelEntity(mesh: .generateSphere(radius: sphereSize))
+            sphere.components.set(HoverEffectComponent(.shader(.default)))
+            sphere.components.set(InputTargetComponent())
+            sphere.components.set(CollisionComponent(shapes: [.generateSphere(radius: sphereSize)]))
+            sphere.components.set(ModelSortGroupComponent(group: modelSortGroup, order: 9))
+            let sphereMaterial = try! await ShaderGraphMaterial(named: "/SphereMaterial", from: "Scene", in: idolSpaceBundle)
             idols.forEach { idol in
-                let sphereSize: Float = 0.03
                 let hue = idol.hue
                 let saturation = idol.saturation
                 let brightness = idol.brightness
                 let y = (idol.brightness ?? 0) * (1 - 2 * sphereSize) + sphereSize
-                var m = PhysicallyBasedMaterial()
-                m.baseColor = .init(tint: .init(hue: .init(hue ?? 0), saturation: .init(saturation ?? 0), brightness: .init(brightness ?? 0), alpha: hue.map {_ in 1} ?? 0))
-                m.emissiveColor = .init(color: m.baseColor.tint)
-                m.emissiveIntensity = 0.8
-                m.roughness = 0.2
-                m.metallic = 0.01
-                m.blending = .transparent(opacity: 0.9)
-                let e = ModelEntity(mesh: .generateSphere(radius: sphereSize), materials: [m])
+//                var m = PhysicallyBasedMaterial()
+//                m.baseColor = .init(tint: .init(hue: .init(hue ?? 0), saturation: .init(saturation ?? 0), brightness: .init(brightness ?? 0), alpha: hue.map {_ in 1} ?? 0))
+//                m.emissiveColor = .init(color: m.baseColor.tint)
+//                m.emissiveIntensity = 0.8
+//                m.roughness = 0.2
+//                m.metallic = 0.01
+//                m.blending = .transparent(opacity: 0.9)
+//                var m2 = UnlitMaterial(color: .init(hue: .init(hue ?? 0), saturation: .init(saturation ?? 0), brightness: .init(brightness ?? 0), alpha: hue.map {_ in 1} ?? 0), applyPostProcessToneMap: true)
+//                m2.blending = .opaque
+
+                var m = sphereMaterial
+                try! m.setParameter(name: "color", value: .color(UIColor(hue: .init(hue ?? 0), saturation: .init(saturation ?? 0), brightness: .init(brightness ?? 0), alpha: hue.map {_ in 1} ?? 0).cgColor))
+
+                let e = sphere.clone(recursive: false)
+                e.model!.materials = [m]
                 e.name = idol.name
-                e.components.set(HoverEffectComponent())
-                e.components.set(InputTargetComponent())
-                e.components.set(CollisionComponent(shapes: [.generateSphere(radius: sphereSize)]))
-                e.components.set(ModelSortGroupComponent(group: modelSortGroup, order: 9))
                 if let hue {
                     let θ = hue * .pi * 2
                     let r = ((saturation ?? 0) / 2) * (1 - 2 * sphereSize)

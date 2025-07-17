@@ -4,53 +4,6 @@
       [
         "E2AF7C60-D8B6-4A54-B011-518FE7CF0322",
         "Root",
-        "OvalBottom",
-        "Material",
-        "nodegraph"
-      ],
-      {
-        "isExpanded" : true,
-        "isLocked" : false
-      },
-      [
-        "E2AF7C60-D8B6-4A54-B011-518FE7CF0322",
-        "Root",
-        "OvalTop"
-      ],
-      {
-        "isExpanded" : true,
-        "isLocked" : false
-      },
-      [
-        "E2AF7C60-D8B6-4A54-B011-518FE7CF0322",
-        "Root"
-      ],
-      {
-        "isExpanded" : true,
-        "isLocked" : false
-      },
-      [
-        "E2AF7C60-D8B6-4A54-B011-518FE7CF0322",
-        "Root",
-        "OvalBottom",
-        "Material"
-      ],
-      {
-        "isExpanded" : true,
-        "isLocked" : false
-      },
-      [
-        "E2AF7C60-D8B6-4A54-B011-518FE7CF0322",
-        "Root",
-        "OvalBottom"
-      ],
-      {
-        "isExpanded" : true,
-        "isLocked" : false
-      },
-      [
-        "E2AF7C60-D8B6-4A54-B011-518FE7CF0322",
-        "Root",
         "Oval",
         "Material"
       ],
@@ -70,9 +23,18 @@
       },
       [
         "E2AF7C60-D8B6-4A54-B011-518FE7CF0322",
+        "SphereMaterial"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "E2AF7C60-D8B6-4A54-B011-518FE7CF0322",
         "Root",
-        "OvalTop",
-        "Material"
+        "OvalBottom",
+        "Material",
+        "nodegraph"
       ],
       {
         "isExpanded" : true,

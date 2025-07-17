@@ -13,6 +13,7 @@ struct ContentView: View {
                 idols = try await Idol.fetch(brand: brand)
             } catch {
                 NSLog("%@", "fetch error = \(String(describing: error))")
+                idols = Imasparql.cinderellaGirls20250717
             }
         }
     }
