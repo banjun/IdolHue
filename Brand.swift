@@ -8,5 +8,6 @@ enum Brand: String, CaseIterable {
     case ShinyColors
     case Gakuen
     case valiv = "va-liv"
+    case DearlyStars
 }
 extension Brand: Identifiable { var id: Self { self } }

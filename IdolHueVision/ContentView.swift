@@ -5,7 +5,11 @@ struct ContentView: View {
     private let model: Model = .init()
     @MainActor @Observable final class Model {
         var idols: [Idol] = []
-        var brand: Brand? = .Gakuen
+        var brand: Brand? = .Gakuen {didSet {Task {await fetch()}}}
+
+        init() {
+            Task {await fetch()}
+        }
 
         func fetch() async {
             do {
@@ -21,8 +25,6 @@ struct ContentView: View {
     var body: some View {
         @Bindable var model = model
         IdolHueView(idols: model.idols)
-            .task { await model.fetch() }
-            .onChange(of: model.brand) { _, _ in Task { await model.fetch() } }
             .ornament(attachmentAnchor: .scene(.bottomFront), contentAlignment: .top) {
                 VStack {
                     Picker("Brand", selection: $model.brand) {

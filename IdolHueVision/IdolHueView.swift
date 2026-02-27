@@ -24,8 +24,9 @@ struct IdolHueView: View {
             }
             .gesture(TapGesture().targetedToAnyEntity().onEnded { value in
                 print(value.entity.name)
+//                value.entity.playAnimation(try! .makeActionAnimation(for: EmphasizeAction(motionType: .pulse, style: .basic), bindTarget: .transform))
             })
-            .onChange(of: idols) { _, _ in Task {await layout(geometry: geometry)}}
+//            .onChange(of: idols) { _, _ in Task {await layout(geometry: geometry)}}
         }
     }
 
