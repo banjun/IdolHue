@@ -9,12 +9,15 @@ struct IdolHueView: View {
     @Environment(\.physicalMetrics) private var physicalMetrics
     @State private var scene: Entity = try! Entity.load(named: "Scene", in: idolSpaceBundle)
     @State private var idolEntitiesRoot = Entity()
+    @State private var llTexture = try! LowLevelTexture(descriptor: .init(textureType: .type2D, pixelFormat: .rgba8Unorm_srgb, width: 1024, height: 1, textureUsage: [.shaderRead, .shaderWrite]))
+    @State private var llTextureBuffer = MTLCreateSystemDefaultDevice()!.makeBuffer(length: 1 * 4 * 1024)!
     let modelSortGroup = ModelSortGroup(depthPass: .prePass)
 
     var body: some View {
         GeometryReader3D { geometry in
             RealityView { content in
                 content.add(scene)
+                idolEntitiesRoot.removeFromParent()
                 scene.addChild(idolEntitiesRoot)
                 idolEntitiesRoot.components.set(ModelSortGroupComponent(group: modelSortGroup, order: 9))
                 scene.findEntity(named: "Cylinder")?.components.set(ModelSortGroupComponent(group: modelSortGroup, order: 199))
@@ -35,7 +38,7 @@ struct IdolHueView: View {
         scene.transform.scale = .init(repeating: scale)
         scene.position.y = -scale / 2
 
-        if idolEntitiesRoot.children.count != idols.count {
+        if true || idolEntitiesRoot.children.count != idols.count {
             idolEntitiesRoot.children.removeAll()
             let sphereSize: Float = 0.03
             let sphere = ModelEntity(mesh: .generateSphere(radius: sphereSize))
@@ -50,6 +53,14 @@ struct IdolHueView: View {
                         let brightness = idol.brightness
                         let y = (idol.brightness ?? 0) * (1 - 2 * sphereSize) + sphereSize
 
+                        if let rgbmm = idol.rgb_min_max {
+                            let p = llTextureBuffer.contents().assumingMemoryBound(to: UInt8.self)
+                            p[i * 4 + 0] = UInt8(rgbmm.r * 255)
+                            p[i * 4 + 1] = UInt8(rgbmm.g * 255)
+                            p[i * 4 + 2] = UInt8(rgbmm.b * 255)
+                            p[i * 4 + 3] = UInt8(255)
+                        }
+
                         if let hue {
                             let θ = hue * .pi * 2
                             let r = ((saturation ?? 0) / 2) * (1 - 2 * sphereSize)
@@ -60,26 +71,39 @@ struct IdolHueView: View {
                     }
                 }
                 sphere.components.set(try! MeshInstancesComponent(mesh: .generateSphere(radius: sphereSize), instances: instanceData))
+                NSLog("%@", "sphere instances = \(instanceData.instanceCount)")
+
+                if let queue = MTLCreateSystemDefaultDevice()!.makeCommandQueue(),
+                   let buffer = queue.makeCommandBuffer() {
+                    defer {buffer.commit()}
+                    if let blit = buffer.makeBlitCommandEncoder() {
+                        defer {blit.endEncoding()}
+                        blit.copy(from: llTextureBuffer, sourceOffset: 0, sourceBytesPerRow: llTextureBuffer.length / llTexture.descriptor.height, sourceBytesPerImage: llTextureBuffer.length, sourceSize: MTLSize(width: llTexture.descriptor.width, height: llTexture.descriptor.height, depth: 1), to: llTexture.read(), destinationSlice: 0, destinationLevel: 0, destinationOrigin: .init())
+                    }
+                }
             } else {
             }
             sphere.components.set(HoverEffectComponent(.shader(.default)))
             sphere.components.set(InputTargetComponent())
             sphere.components.set(CollisionComponent(shapes: [.generateSphere(radius: sphereSize)]))
             sphere.components.set(ModelSortGroupComponent(group: modelSortGroup, order: 9))
-            let sphereMaterial: ShaderGraphMaterial
+            var sphereMaterial: ShaderGraphMaterial
             if #available(visionOS 27, *) {
-                let builder = try! ShaderGraph.NodeBuilder()
-                let pbr = builder.ND_realitykit_pbr_surfaceshader()
-                let color = builder.ND_combine3_color3()
+                // NSLog("%@", "texture outsputs = \(builder.library.definitions(function: "convert", output: .cgColor3))")
+                let texture = ShaderGraph.NodeDefinition.Input(name: "texture", type: .texture)
+                let builder = try! ShaderGraph.NodeBuilder(inputs: [texture])
+                let image = try! builder.graphInput(texture).file(builder.ND_RealityKitTexture2DPixel_color3(filter: .nearest)).last
+                let unlit = builder.ND_realitykit_unlit_surfaceshader()
                 try! builder.connect(from: builder.ND_realitykit_instance_id())
-                    .in(builder.ND_convert_integer_float())
-                    .in1(builder.connect(from: .float(Float(idols.count))).in2(builder.ND_divide_float()).last)
-                    .in1(color)
-                    .baseColor(pbr)
-                    .out()
-                sphereMaterial = try! await ShaderGraphMaterial(from: builder)
+                    .convert()
+                    .combine(in2: 0)
+                    .texcoord(image)
+                    .color(unlit)
+                    .graphOutput()
+                sphereMaterial = try! await ShaderGraphMaterial(from: builder, inputValues: [texture.name: .textureResource(.init(from: llTexture))])
 
                 sphere.model!.materials = [sphereMaterial]
+                idolEntitiesRoot.children.removeAll()
                 idolEntitiesRoot.addChild(sphere)
             } else {
                 sphereMaterial = try! await ShaderGraphMaterial(named: "/SphereMaterial", from: "Scene", in: idolSpaceBundle)
@@ -135,10 +159,10 @@ struct IdolHueView: View {
                     }
 
 
-                    idolEntitiesRoot.addChild(e)
+                    //idolEntitiesRoot.addChild(e)
                 }
             }
-            // NSLog("%@", "\(Self.self)(\(id)) updated idol entities \(idolEntitiesRoot.children.count) == \(idols.count)")
+            NSLog("%@", "\(Self.self) updated idol entities \(idolEntitiesRoot.children.count) == \(idols.count)")
         }
     }
 }
