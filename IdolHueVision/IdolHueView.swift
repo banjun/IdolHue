@@ -68,17 +68,16 @@ struct IdolHueView: View {
             sphere.components.set(ModelSortGroupComponent(group: modelSortGroup, order: 9))
             let sphereMaterial: ShaderGraphMaterial
             if #available(visionOS 27, *) {
-                let library = ShaderGraph.NodeLibrary(version: .materialX139)
-                let graph = try! ShaderGraph(named: "g", inputs: [], outputs: [.init(name: "out", type: .surfaceShader)], nodeLibrary: library)
-                let pbr = graph.ND_realitykit_pbr_surfaceshader(library)
-                let color = graph.ND_combine3_color3(library)
-                try! graph.connect(from: graph.ND_realitykit_instance_id(library))
-                    .in(graph.ND_convert_integer_float(library))
-                    .in1(graph.connect(from: .float(Float(idols.count))).in2(graph.ND_divide_float(library)).last)
+                let builder = try! ShaderGraph.NodeBuilder()
+                let pbr = builder.ND_realitykit_pbr_surfaceshader()
+                let color = builder.ND_combine3_color3()
+                try! builder.connect(from: builder.ND_realitykit_instance_id())
+                    .in(builder.ND_convert_integer_float())
+                    .in1(builder.connect(from: .float(Float(idols.count))).in2(builder.ND_divide_float()).last)
                     .in1(color)
                     .baseColor(pbr)
                     .out()
-                sphereMaterial = try! await ShaderGraphMaterial(program: .init(descriptor: .init(inferredFrom: graph)))
+                sphereMaterial = try! await ShaderGraphMaterial(from: builder)
 
                 sphere.model!.materials = [sphereMaterial]
                 idolEntitiesRoot.addChild(sphere)
